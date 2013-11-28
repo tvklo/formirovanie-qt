@@ -5,6 +5,7 @@
 #include <QSqlQueryModel>
 #include "database.h"
 #include <QDebug>
+#include <QSqlRecord>
 
 namespace Ui {
 class SleepingList;
