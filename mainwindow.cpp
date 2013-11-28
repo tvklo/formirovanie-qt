@@ -2,8 +2,11 @@
 #include "ui_mainwindow.h"
 
 
+
+
 void MainWindow::connectSlots(){
     connect(ui->search_submit,SIGNAL(clicked()),this,SLOT(search()));
+    connect(ui->sleeping_list_act,SIGNAL(triggered()),this,SLOT(show_sleeping_list()));
 }
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -11,16 +14,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    dataModel = new QSqlRelationalTableModel(this,Database::Instance()->main_db);
-    dataModel->setTable("archive");
-    dataModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    dataModel->select();
-    dataModel->removeColumn(0); // don't show the ID
-    //dataModel->setHeaderData(0, Qt::Horizontal, tr("Фамилия"));
-    //dataModel->setHeaderData(1, Qt::Horizontal, tr("Имя"));
-    //dataModel->setHeaderData(2, Qt::Horizontal, tr("Отчество"));
-    dataModel->setRelation(7,QSqlRelation("destination","ID_DEST","DEVISION"));
-    ui->search->setModel(dataModel);
     connectSlots();
 
 }
@@ -34,4 +27,9 @@ void MainWindow::search()
 {
     dataModel->setFilter("FirstName = '"+ui->search_secName->text()+"' "+
                          "AND ");
+}
+
+void MainWindow::show_sleeping_list(){
+    this->sleeppingListForm = new SleepingList(this);
+    this->sleeppingListForm->show();
 }

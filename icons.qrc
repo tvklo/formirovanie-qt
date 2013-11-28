@@ -1,7 +1,8 @@
-<!DOCTYPE RCC><RCC version="1.0">
-<qresource>
-    <file>img\import.png</file>
-    <file>img\add_body.ico</file>
-    <file>img\export_excel.png</file>
-</qresource>
+<RCC>
+    <qresource prefix="/">
+        <file>img/import.png</file>
+        <file>img/add_body.ico</file>
+        <file>img/export_excel.png</file>
+        <file>img/sleep.png</file>
+    </qresource>
 </RCC>

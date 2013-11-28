@@ -6,6 +6,9 @@
 #include <QSqlRelationalTableModel>
 #include "database.h"
 #include "settings.h"
+#include "sleepinglist.h"
+
+
 
 namespace Ui {
 class MainWindow;
@@ -24,10 +27,12 @@ public:
 
 public slots:
     void search();
-
+    void show_sleeping_list();
 
 private:
     Ui::MainWindow *ui;
+    SleepingList *sleeppingListForm;
+
 };
 
 #endif // MAINWINDOW_H

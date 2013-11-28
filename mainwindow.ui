@@ -223,6 +223,7 @@
    <addaction name="import_act"/>
    <addaction name="add_body_act"/>
    <addaction name="export_excel_act"/>
+   <addaction name="sleeping_list_act"/>
   </widget>
   <action name="import_act">
    <property name="icon">
@@ -258,6 +259,18 @@
    </property>
    <property name="toolTip">
     <string>Экспорт в excel</string>
+   </property>
+  </action>
+  <action name="sleeping_list_act">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/img/sleep.png</normaloff>:/img/sleep.png</iconset>
+   </property>
+   <property name="text">
+    <string>Список ночующих</string>
+   </property>
+   <property name="toolTip">
+    <string>Список ночующих</string>
    </property>
   </action>
  </widget>
