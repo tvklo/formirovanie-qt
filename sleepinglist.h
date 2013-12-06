@@ -6,6 +6,7 @@
 #include "database.h"
 #include <QDebug>
 #include <QSqlRecord>
+#include <QCheckBox>
 
 namespace Ui {
 class SleepingList;
@@ -18,6 +19,8 @@ class SleepingList : public QDialog
 public:
     explicit SleepingList(QWidget *parent = 0);
     ~SleepingList();
+
+public slots:
     void updateList();
 
 private:
