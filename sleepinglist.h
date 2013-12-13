@@ -7,6 +7,10 @@
 #include <QDebug>
 #include <QSqlRecord>
 #include <QCheckBox>
+#include <QSqlQuery>
+#include <QSqlResult>
+#include <QDate>
+#include <QVariant>
 
 namespace Ui {
 class SleepingList;
@@ -21,7 +25,7 @@ public:
     ~SleepingList();
 
 public slots:
-    void updateList();
+    void updateList(QDate newDate);
 
 private:
     Ui::SleepingList *ui;

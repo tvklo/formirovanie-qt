@@ -5,10 +5,12 @@ SleepingList::SleepingList(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SleepingList)
 {
+    //QDate tmpDate = QDate::currentDate();
     ui->setupUi(this);
     ui->dateEdit->setDate(QDate::currentDate());
-//    updateList(QDate::currentDate());
-    connect(ui->dateEdit,SIGNAL(editingFinished()),this,SLOT(updateList()));
+    //updateList(tmpDate);
+    connect(ui->dateEdit,SIGNAL(dateChanged(const QDate)),
+            this,SLOT(updateList(QDate)));
 }
 
 SleepingList::~SleepingList()
@@ -17,27 +19,31 @@ SleepingList::~SleepingList()
 }
 
 
-void SleepingList::updateList(){
-    int day = ui->dateEdit->date().day();
-    int month = ui->dateEdit->date().month();
-    int year = ui->dateEdit->date().year();
+void SleepingList::updateList(QDate newDate){
+    int year,month,day;
+    newDate.getDate(&year,&month,&day);
 
-    this->model = new QSqlQueryModel(this);
-    QString q = "SELECT * FROM `plan_` WHERE `DATE` = '" +
-            QString::number(year)+"-"+QString::number(month)+"-"+QString::number(day)+"'";
-    this->model->setQuery(q,Database::Instance()->main_db);
-    qDebug() << q;
+    qDebug() << year << month << day;
+    Database::Instance();
+    QSqlQuery query(Database::Instance()->main_db);
+    QString qstr = "SELECT `no_com` FROM `plan_` WHERE "
+                   "YEAR(`DATE`) = :year AND "
+                   "MONTH(`DATE`)= :month AND "
+                   "DAY(`DATE`)  = :day AND "
+                   "CommandOK = 1";
 
-    ui->tableWidget->setColumnCount(2);
-    ui->tableWidget->setRowCount(model->rowCount());
-    for (int i = 0; i < model->rowCount(); ++i) {
-             int id = model->record(i).value("ID_PLAN").toInt();
-             QString name = model->record(i).value("no_com").toString();
-             qDebug() << id << name;
-             ui->tableWidget->setItem(i,1,new QTableWidgetItem(name));
-             ui->tableWidget->setCellWidget(i, 0, new QCheckBox);
 
-    }
-    ui->tableWidget->viewport()->update();
+    query.prepare(qstr);
+    query.bindValue(":year",year);
+    query.bindValue(":month",month);
+    query.bindValue(":day",day);
+    query.exec();
+    qDebug() << query.executedQuery();
+    qDebug("%s" , query.lastQuery().toStdString().c_str());
+    //while (){
+        qDebug() << query.value(0).toString();
+    //}
+
     qDebug() << "Table updated";
+
 }
