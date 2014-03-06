@@ -9,6 +9,7 @@ void MainWindow::connectSlots(){
     connect(ui->sleeping_list_act,SIGNAL(triggered()),this,SLOT(show_sleeping_list()));
     connect(ui->toRightBtn,SIGNAL(clicked()),this,SLOT(toRight()));
     connect(ui->toLeftBtn,SIGNAL(clicked()),this,SLOT(toLeft()));
+    connect(ui->orders,SIGNAL(currentIndexChanged(int)),this,SLOT(updateCommandList(int)));
 }
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -16,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    configStatusBar();
     connectSlots();
     configTables();
     fillList();
@@ -25,6 +27,15 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::configStatusBar(){
+
+    ui->statusBar->addWidget(new QLabel("Всего в БД: 1231"));
+    ui->statusBar->addWidget(new QLabel("Резерв: 0, Сегодня: 0 "));
+    ui->statusBar->addWidget(new QLabel("Отправлено: 2981, из них в ВС: 2671"));
+    ui->statusBar->addWidget(new QLabel("Слева: 0, Справа: 0, Команд: 0"));
+
 }
 
 void MainWindow::configTables(){
@@ -69,9 +80,66 @@ void MainWindow::fillList(){
         row++;
     }while(query.next());
 
-    qstr = "SELECT ";
+    qstr = "SELECT * FROM `order_` ORDER BY `OrderDate` DESC;";
+    query.exec(qstr);
+    query.first();
+    do{
+        ui->orders->addItem(query.value("No_ORDER").toString()+" от "+query.value("OrderDate").toString(),query.value("id_"));
+    }while(query.next());
 
+    QStringList labels;
+    labels << "Команда" << "ВОСО" << "Кол-во" << "Дата";
+    ui->commandList->setColumnCount(labels.count());
+    ui->commandList->setHorizontalHeaderLabels(labels);
 
+    qstr = "SELECT "
+            "plan_.no_com, "
+            "plan_.VOSO, "
+            "plan_.CountNow, "
+            "plan_.DATE "
+            "FROM "
+            "plan_ "
+            "WHERE "
+            "plan_.id_order = "+ui->orders->itemData(0).toString()+";";
+    query.exec(qstr);
+    query.first();
+    //qDebug() << qstr;
+    row = 0;
+    do{
+        ui->commandList->setRowCount(query.size());
+        for(int col=0;col<ui->commandList->columnCount();col++){
+            ui->commandList->setItem(row,col,new QTableWidgetItem(query.value(col).toString()));
+        }
+        row++;
+    }while(query.next());
+
+}
+
+void MainWindow::updateCommandList(int index){
+    QString main_db,add_db;
+    main_db = Settings::Instance()->main_db.database;
+    add_db = Settings::Instance()->add_db.database;
+    QSqlQuery query(Database::Instance()->main_db);
+    QString qstr = "SELECT "
+            "plan_.no_com, "
+            "plan_.VOSO, "
+            "plan_.CountNow, "
+            "plan_.DATE "
+            "FROM "
+            "plan_ "
+            "WHERE "
+            "plan_.id_order = "+ui->orders->currentData().toString()+";";
+    query.exec(qstr);
+    query.first();
+    //qDebug() << qstr;
+    int row = 0;
+    do{
+        ui->commandList->setRowCount(query.size());
+        for(int col=0;col<ui->commandList->columnCount();col++){
+            ui->commandList->setItem(row,col,new QTableWidgetItem(query.value(col).toString()));
+        }
+        row++;
+    }while(query.next());
 }
 
 void MainWindow::search(){

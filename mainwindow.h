@@ -32,6 +32,8 @@ public slots:
     void toRight();
     void allLeft();
     void allRight();
+    void updateCommandList(int);
+    void configStatusBar();
 
 
 private:
