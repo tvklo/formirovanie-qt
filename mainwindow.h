@@ -28,10 +28,17 @@ public:
 public slots:
     void search();
     void show_sleeping_list();
+    void toLeft();
+    void toRight();
+    void allLeft();
+    void allRight();
+
 
 private:
     Ui::MainWindow *ui;
     SleepingList *sleeppingListForm;
+    void configTables();
+    void fillList();
 
 };
 
