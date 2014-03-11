@@ -340,7 +340,7 @@
             <string>В/Б</string>
            </property>
           </widget>
-          <widget class="QRadioButton" name="radioButton">
+          <widget class="QRadioButton" name="search_radioALL">
            <property name="geometry">
             <rect>
              <x>230</x>
@@ -352,11 +352,14 @@
            <property name="text">
             <string>Везде</string>
            </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
            <attribute name="buttonGroup">
             <string notr="true">buttonGroup</string>
            </attribute>
           </widget>
-          <widget class="QRadioButton" name="radioButton_2">
+          <widget class="QRadioButton" name="search_radioRez">
            <property name="geometry">
             <rect>
              <x>230</x>
@@ -368,21 +371,8 @@
            <property name="text">
             <string>Резерв</string>
            </property>
-           <attribute name="buttonGroup">
-            <string notr="true">buttonGroup</string>
-           </attribute>
-          </widget>
-          <widget class="QRadioButton" name="radioButton_3">
-           <property name="geometry">
-            <rect>
-             <x>230</x>
-             <y>60</y>
-             <width>82</width>
-             <height>17</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Убывшие</string>
+           <property name="checked">
+            <bool>false</bool>
            </property>
            <attribute name="buttonGroup">
             <string notr="true">buttonGroup</string>
@@ -503,13 +493,6 @@
             <string>Расформировать</string>
            </property>
           </widget>
-          <zorder>commandList</zorder>
-          <zorder>orders</zorder>
-          <zorder>label</zorder>
-          <zorder>search_group</zorder>
-          <zorder>search_group</zorder>
-          <zorder>bandCommand</zorder>
-          <zorder>disbandCommand</zorder>
          </widget>
         </item>
        </layout>
@@ -579,6 +562,7 @@
    <addaction name="add_body_act"/>
    <addaction name="export_excel_act"/>
    <addaction name="sleeping_list_act"/>
+   <addaction name="act_command"/>
   </widget>
   <action name="import_act">
    <property name="icon">
@@ -603,6 +587,9 @@
    <property name="toolTip">
     <string>Добавить призывника в реестр</string>
    </property>
+   <property name="shortcut">
+    <string>F3</string>
+   </property>
   </action>
   <action name="export_excel_act">
    <property name="icon">
@@ -626,6 +613,18 @@
    </property>
    <property name="toolTip">
     <string>Список ночующих</string>
+   </property>
+  </action>
+  <action name="act_command">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/img/edit_commands.png</normaloff>:/img/edit_commands.png</iconset>
+   </property>
+   <property name="text">
+    <string>Команды</string>
+   </property>
+   <property name="toolTip">
+    <string>Редактор команд</string>
    </property>
   </action>
  </widget>

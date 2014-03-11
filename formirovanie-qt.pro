@@ -17,16 +17,22 @@ SOURCES += main.cpp\
     settings.cpp \
     database.cpp \
     functions.cpp \
-    sleepinglist.cpp
+    sleepinglist.cpp \
+    addbody.cpp \
+    editcommand.cpp
 
 HEADERS  += mainwindow.h \
     settings.h \
     database.h \
     functions.h \
-    sleepinglist.h
+    sleepinglist.h \
+    addbody.h \
+    editcommand.h
 
 FORMS    += mainwindow.ui \
-    sleepinglist.ui
+    sleepinglist.ui \
+    addbody.ui \
+    editcommand.ui
 
 RESOURCES += \
     icons.qrc

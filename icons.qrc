@@ -4,5 +4,6 @@
         <file>img/add_body.ico</file>
         <file>img/export_excel.png</file>
         <file>img/sleep.png</file>
+        <file>img/edit_commands.png</file>
     </qresource>
 </RCC>
